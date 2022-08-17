@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, Text, View , TouchableOpacity, SafeAreaView, Sc
 import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
 import { useNavigation } from '@react-navigation/native';
-
+import CategoriesInput from '../Components/CategoriesInput';
 
 export default function AddRanking() {
   const navigation = useNavigation(); 
@@ -27,20 +27,7 @@ export default function AddRanking() {
               />
             </View> 
             <Text>Categories: </Text>
-            <View style={styles.rowContainterTogether}>
-              <Text>Name: </Text>
-              <TextInput
-                style={[styles.textBox, {width:'50%'}]}
-              />
-              <Text style={[{paddingLeft: '3%'}]}>Score: </Text>
-              <TextInput
-                keyboardType='numeric'
-                style={[styles.textBox, , {width:'15%'}]}
-              />
-              <TouchableOpacity onPress={() => {alert('TODO: remove this item')}}>
-                <Text> - </Text>
-              </TouchableOpacity>
-            </View> 
+            <CategoriesInput/>
             <NavButton text="Submit" navigateTo="Ranking"/>
             <StatusBar style="auto" />
           </View>
@@ -84,4 +71,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
+  catText: {
+    fontStyle: 'italic',
+    color: '#BFBFBD'
+  }
 })
