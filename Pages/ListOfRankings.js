@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , TouchableOpacity, SafeAreaView, ScrollView, Image } from 'react-native';
 import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
+import XButton from '../Components/XButton';
 
 export default function ListOfRankings({navigation}) {
   // const [shouldShow, setShouldShow] = useState(true);
@@ -74,11 +75,7 @@ export default function ListOfRankings({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.rowContainter}>
-      <TouchableOpacity 
-          style={styles.buttonStyle}
-          onPress={() => { navigation.navigate('Ranking')}}>
-            <Text style={styles.buttonTextStyle}> Back </Text>
-        </TouchableOpacity>
+        <XButton navigateTo='Ranking'/>
         <Header/>
       </View>
 
@@ -194,21 +191,23 @@ const styles = StyleSheet.create({
     marginRight: '5%'
   },
   buttonTextStyle: {
-    color: "white",
+    color: "#C651AC",
     fontSize: 14,
     textAlign: 'center',
-    paddingTop: '11%',
-    marginLeft: '-5%'
-},
-buttonStyle: {
-    backgroundColor: '#C651AC',
-    width: 50,
-    height: 30,
+    paddingTop: '7%',
+    marginLeft: '-15%'
+  },
+  buttonStyle: {
+    backgroundColor: 'white',
+    width: 25,
+    height: 25,
     borderRadius: 15,
-    marginLeft: '5%'
-},
-addItem: {
-  justifyContent: 'center',
-  alignItems: 'center'
-},
-});
+    marginLeft: '5%',
+    borderWidth: 2,
+    borderColor: '#C651AC'
+  },
+  addItem: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  });

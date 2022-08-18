@@ -4,34 +4,43 @@ import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
 import { useNavigation } from '@react-navigation/native';
 import CategoriesInput from '../Components/CategoriesInput';
+import XButton from '../Components/XButton';
 
 export default function AddRanking() {
   const navigation = useNavigation(); 
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.rowContainter}>
-          <TouchableOpacity 
-              style={styles.buttonStyle}
-              onPress={() => { navigation.navigate('Ranking')}}>
-                <Text style={styles.buttonTextStyle}> Back </Text>
-            </TouchableOpacity>
+          <XButton navigateTo='Ranking'/>
           <Header/>
         </View>
 
         <ScrollView>
           <View style={styles.content}>
-            <View style={styles.rowContainterTogether}>
-              <Text>Name: </Text>
+            <View style={[styles.rowContainterTogether, {paddingBottom: '3%'}]}>
+              <Text style={styles.headingTextStyle}>Name: </Text>
               <TextInput
-                style={[styles.textBox, {width:'90%'}]}
+                style={[styles.textBox, {width:'85%'}]}
               />
             </View> 
-            <Text>Categories: </Text>
+            <Text style={styles.headingTextStyle}>Categories: </Text>
             <CategoriesInput/>
-            <NavButton text="Submit" navigateTo="Ranking"/>
+            <CategoriesInput/>
+            <CategoriesInput/>
+            <View style={styles.addButtonnViewStyle}>
+              <TouchableOpacity 
+                style={styles.addButtonStyle}
+                onPress={() => { alert('TODO: add components')}}>
+                <Text style={styles.addButtonTextStyle}> + </Text>
+              </TouchableOpacity>
+            </View>
+            
             <StatusBar style="auto" />
           </View>
         </ScrollView>
+        <View style={{paddingLeft: '5%'}}>
+        <NavButton text="Submit" navigateTo="Ranking"/>
+        </View>
         <ImageBackground source={require('../icons/background.png')} style={{width: Dimensions.get('window').width, aspectRatio: 1}}/>
       </SafeAreaView>
     )
@@ -48,24 +57,44 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   textBox: {
-    borderColor: '#C9AAC2',
-    borderWidth: 1,
+    borderColor: 'rgba(201, 170, 194, 0.5)',
+    borderWidth: 2,
     paddingHorizontal: '2%',
     paddingVertical: '1%'
   },
   buttonTextStyle: {
-    color: "white",
+    color: "#C651AC",
     fontSize: 14,
     textAlign: 'center',
-    paddingTop: '11%',
-    marginLeft: '-5%'
+    paddingTop: '7%',
+    marginLeft: '-15%'
+  },
+  addButtonTextStyle: {
+    color: "#C651AC",
+    fontSize: 14,
+    textAlign: 'center',
+    paddingTop: '6%',
+    marginRight: '15%'
+  },
+  addButtonStyle: {
+    backgroundColor: 'white',
+    width: 25,
+    height: 25,
+    borderWidth: 2,
+    borderColor: "#C651AC"
+  },
+  addButtonnViewStyle: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   buttonStyle: {
-    backgroundColor: '#C651AC',
-    width: 50,
-    height: 30,
+    backgroundColor: 'white',
+    width: 25,
+    height: 25,
     borderRadius: 15,
-    marginLeft: '5%'
+    marginLeft: '5%',
+    borderWidth: 2,
+    borderColor: '#C651AC'
   },
   rowContainter: {
     flexDirection: "row",
@@ -74,5 +103,8 @@ const styles = StyleSheet.create({
   catText: {
     fontStyle: 'italic',
     color: '#BFBFBD'
-  }
+  },
+  headingTextStyle: {
+    fontSize: 16
+  },
 })
