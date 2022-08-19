@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Dimensions, Text, View , TouchableOpacity, SafeAreaView, ScrollView, TextInput, ImageBackground} from 'react-native';
+import { StyleSheet, Dimensions, Text, View , TouchableOpacity, SafeAreaView, ScrollView, TextInput, ImageBackground } from 'react-native';
 import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
-import { useNavigation } from '@react-navigation/native';
 import CategoriesInput from '../Components/CategoriesInput';
 import XButton from '../Components/XButton';
+import { useState } from 'react';
 
 export default function AddRanking() {
-  const navigation = useNavigation(); 
+  const [catArray, setCatArray] = useState([]);
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.rowContainter}>
@@ -25,14 +25,26 @@ export default function AddRanking() {
             </View> 
             <Text style={styles.headingTextStyle}>Categories: </Text>
             <CategoriesInput/>
-            <CategoriesInput/>
-            <CategoriesInput/>
-            <View style={styles.addButtonnViewStyle}>
-              <TouchableOpacity 
-                style={styles.addButtonStyle}
-                onPress={() => { alert('TODO: add components')}}>
-                <Text style={styles.addButtonTextStyle}> + </Text>
-              </TouchableOpacity>
+            {catArray}
+            <View style={[styles.rowContainterTogether, styles.addButtonnViewStyle]}>
+              <View>
+                <TouchableOpacity 
+                  style={styles.addButtonStyle}
+                  onPress={() => {
+                    setCatArray(oldArray => [...oldArray, <CategoriesInput/>]);
+                    }}>
+                  <Text style={styles.addButtonTextStyle}> + </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.addButtonnViewStyle, {paddingLeft: '1%'}]}>
+                <TouchableOpacity 
+                  style={styles.addButtonStyle}
+                  onPress={() => {
+                    setCatArray((products) => products.filter((_, index) => index !== 0));
+                    }}>
+                  <Text style={styles.addButtonTextStyle}> - </Text>
+                </TouchableOpacity>
+              </View>
             </View>
             
             <StatusBar style="auto" />

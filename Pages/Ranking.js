@@ -1,9 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { Dimensions, StyleSheet, Text, View , TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View , TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
 import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
 
-const screenWidth = Dimensions.get('window').width;
 export default function Ranking({navigation}) {
     const dummyData = [
       {

@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 export default function CategoriesInput() {
@@ -7,7 +6,7 @@ export default function CategoriesInput() {
         <View style={[styles.rowContainterTogether, {paddingHorizontal:'5%', paddingVertical: '2%'}]}>
               <Text style={styles.catText}>Name: </Text>
               <TextInput
-                style={[styles.textBox, {width:'80%'}]}
+                style={[styles.textBox, {width:'90%'}]}
               />
               {/* <Text style={[styles.catText, {paddingLeft: '3%'}]}>Score: </Text>
               <TextInput
@@ -15,13 +14,13 @@ export default function CategoriesInput() {
                 maxLength='3'
                 style={[styles.textBox, , {width:'15%'}]}
               /> */}
-              <View style={styles.removeButtStyle}>
+              {/* <View style={styles.removeButtStyle}>
                 <TouchableOpacity 
                   style={styles.buttonStyle} 
                   onPress={() => {alert('TODO: remove this item')}}>
                   <Text style={styles.buttonTextStyle}> - </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View> 
     </View>
   );
