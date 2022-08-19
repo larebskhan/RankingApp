@@ -89,10 +89,15 @@ export default function ListOfRankings({navigation}) {
                   <Text style={styles.place}>{item.place}</Text>
                   <Text style={styles.itemName}>{item.name}</Text>
                   <View style={styles.editEditPos}>
-                      <TouchableOpacity onPress={() => alert('Edit Item')}>
+                      <TouchableOpacity onPress={() => {navigation.navigate('AddListItem')}}>
                         <Image source={require('../icons/editIcon.png')} style={styles.editStyle}/>
                       </TouchableOpacity>
                   </View>
+                  <View style={[styles.editEditPos, {marginLeft: '-3%'}]}>
+                      <TouchableOpacity onPress={() => alert('TODO: delete item in db')}>
+                        <Image source={require('../icons/trash.png')} style={styles.editStyle}/>
+                      </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.rowContainterTogether}>
                   <View style={styles.starPosition}>

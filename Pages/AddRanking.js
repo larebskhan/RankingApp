@@ -7,7 +7,7 @@ import XButton from '../Components/XButton';
 import { useState } from 'react';
 
 export default function AddRanking() {
-  const [catArray, setCatArray] = useState([]);
+  const [catArray, setCatArray] = useState([<CategoriesInput/>]);
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.rowContainter}>
@@ -24,7 +24,6 @@ export default function AddRanking() {
               />
             </View> 
             <Text style={styles.headingTextStyle}>Categories: </Text>
-            <CategoriesInput/>
             {catArray}
             <View style={[styles.rowContainterTogether, styles.addButtonnViewStyle]}>
               <View>
@@ -40,7 +39,10 @@ export default function AddRanking() {
                 <TouchableOpacity 
                   style={styles.addButtonStyle}
                   onPress={() => {
-                    setCatArray((products) => products.filter((_, index) => index !== 0));
+                    if(catArray.length > 1)
+                    {
+                      setCatArray((products) => products.filter((_, index) => index !== 0));
+                    }
                     }}>
                   <Text style={styles.addButtonTextStyle}> - </Text>
                 </TouchableOpacity>

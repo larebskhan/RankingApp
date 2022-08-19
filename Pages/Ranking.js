@@ -41,8 +41,13 @@ export default function Ranking({navigation}) {
                       <Text style={styles.rankingName}>{item.name}</Text>
                     </TouchableOpacity>
                     <View style={styles.editEditPos}>
-                      <TouchableOpacity onPress={() => alert('Edit Item')}>
+                      <TouchableOpacity onPress={() => navigation.navigate('AddRanking')}>
                         <Image source={require('../icons/editIcon.png')} style={styles.editStyle}/>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={[styles.editEditPos, {marginLeft: '-3%'}]}>
+                      <TouchableOpacity onPress={() => alert('TODO: delete item in db')}>
+                        <Image source={require('../icons/trash.png')} style={styles.editStyle}/>
                       </TouchableOpacity>
                     </View>
                   </View>
