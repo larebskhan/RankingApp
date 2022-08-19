@@ -4,10 +4,12 @@ import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
 import CategoriesInput from '../Components/CategoriesInput';
 import XButton from '../Components/XButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AddRanking() {
   const [catArray, setCatArray] = useState([<CategoriesInput/>]);
+  const [catDataArray, setCatDataArray] = useState([])
+  const [title, setTitle] = useState('')
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.rowContainter}>
@@ -18,20 +20,27 @@ export default function AddRanking() {
         <ScrollView>
           <View style={styles.content}>
             <View style={[styles.rowContainterTogether, {paddingBottom: '3%'}]}>
-              <Text style={styles.headingTextStyle}>Name: </Text>
+              <Text style={styles.headingTextStyle}>Title: </Text>
               <TextInput
-                style={[styles.textBox, {width:'85%'}]}
+                style={[styles.textBox, {width:'87%'}]}
+                onChangeText={(value) => { 
+                  setTitle(value)}}
               />
             </View> 
             <Text style={styles.headingTextStyle}>Categories: </Text>
             {catArray}
+            
             <View style={[styles.rowContainterTogether, styles.addButtonnViewStyle]}>
               <View>
                 <TouchableOpacity 
                   style={styles.addButtonStyle}
                   onPress={() => {
-                    setCatArray(oldArray => [...oldArray, <CategoriesInput/>]);
-                    }}>
+                    if(global.finalCatName.length >= 1 && catArray.length >= 1) {
+                      setCatDataArray(oldArrayData => [...oldArrayData, global.finalCatName])
+                      setCatArray(oldArray => [...oldArray, <CategoriesInput/>]);
+                      global.finalCatName = null
+                    }
+                  }}>
                   <Text style={styles.addButtonTextStyle}> + </Text>
                 </TouchableOpacity>
               </View>
@@ -41,7 +50,12 @@ export default function AddRanking() {
                   onPress={() => {
                     if(catArray.length > 1)
                     {
-                      setCatArray((products) => products.filter((_, index) => index !== 0));
+                      if(catArray.length > catDataArray.length) setCatArray(catArray.slice(0, -1));
+                      else
+                      {
+                        setCatArray(catArray.slice(0, -1));
+                        setCatDataArray(catDataArray.slice(0, -1));
+                      }
                     }
                     }}>
                   <Text style={styles.addButtonTextStyle}> - </Text>
@@ -53,7 +67,7 @@ export default function AddRanking() {
           </View>
         </ScrollView>
         <View style={{paddingLeft: '5%'}}>
-        <NavButton text="Submit" navigateTo="Ranking"/>
+        <NavButton src="AddRanking" text="Submit" data={[title, catDataArray]} navigateTo="Ranking"/>
         </View>
         <ImageBackground source={require('../icons/background.png')} style={{width: Dimensions.get('window').width, aspectRatio: 1}}/>
       </SafeAreaView>

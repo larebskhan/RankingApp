@@ -1,12 +1,26 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { useState, useEffect } from 'react';
 
+global.finalCatName = null;
 export default function CategoriesInput() {
+  const [catName, setCatName] = useState('')
+  const handleValueChange = () => {
+    global.finalCatName = catName
+  }
+
+  useEffect(() => {
+    handleValueChange();
+  }, [catName]);
+
   return (
     <View >
         <View style={[styles.rowContainterTogether, {paddingHorizontal:'5%', paddingVertical: '2%'}]}>
               <Text style={styles.catText}>Name: </Text>
               <TextInput
                 style={[styles.textBox, {width:'90%'}]}
+                onChangeText={(value) => { 
+                  setCatName(value);
+               }}
               />
               {/* <Text style={[styles.catText, {paddingLeft: '3%'}]}>Score: </Text>
               <TextInput
