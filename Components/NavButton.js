@@ -16,9 +16,9 @@ export default function NavButton({src, text, data, navigateTo}) {
     const navigation = useNavigation(); 
     useEffect(() => {
         createRankingTable();
-        createListItemTable();
         createCategoryTable();
-        createScoreTable();
+        // createListItemTable();
+        // createScoreTable();
     }, [])
 
     const createRankingTable = () => {
@@ -37,34 +37,6 @@ export default function NavButton({src, text, data, navigateTo}) {
             )
         })
     }
-    const createListItemTable = () => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS " 
-                + "List Item "
-                + "(type_id INTEGER PRIMARY KEY AUTOINCREMENT, FOREIGN KEY(item_id) REFERENCES Rankings(item_id), description TEXT, additional_comments TEXT)"
-            )
-        })
-    }
-    const createCategoryTable = () => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS " 
-                + "Category "
-                + "(category_id INTEGER PRIMARY KEY AUTOINCREMENT, FOREIGN KEY(item_id) REFERENCES Rankings(item_id), category TEXT)"
-            )
-        })
-    }
-    const createScoreTable = () => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS " 
-                + "Score "
-                + "(score_id INTEGER PRIMARY KEY AUTOINCREMENT, FOREIGN KEY(cat_id) REFERENCES Category(cat_id), score INTEGER)"
-            )
-        })
-    }
-
     const addRankingData = () => {
         db.transaction(async(tx) => {
             tx.executeSql(
@@ -80,14 +52,37 @@ export default function NavButton({src, text, data, navigateTo}) {
         })
     }
 
-    const addCategoryData = async (val) => {
-        await db.transaction(async(tx) => {
-            await tx.executeSql(
-                "INSERT INTO Category (category) VALUES (?)",
-                [val]
+    const createCategoryTable = () => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "CREATE TABLE IF NOT EXISTS " 
+                + "Category "
+                + "(category_id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, item_id INTEGER NOT NULL, FOREIGN KEY (item_id) REFERENCES Rankings (item_id))",
+                [],
+                (sqlTxn, res) => {
+                    console.log('cat table created sucessfully')
+                },
+                error => {
+                    console.log('error on creating cat table ' + error.message)
+                }
             )
         })
     }
+    const addCategoryData = (val) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "INSERT INTO Category (category) VALUES (?)",
+                [val],
+                (sqlTxn, res) => {
+                    console.log('cat data added sucessfully')
+                },
+                error => {
+                    console.log('error on adding cat data' + error.message)
+                }
+            )
+        })
+    }
+
     const addRankErrorCheck = () => {
         if(src == "AddRanking" && (data[1].length == 0 || data[0].length == 0)) {
             if(data[0].length == 0) {
@@ -101,7 +96,9 @@ export default function NavButton({src, text, data, navigateTo}) {
                 }
                 else {
                     addRankingData()
-                    for(var i = 0; i < data[1].length; i++) addCategoryData(i)
+                    for(var i = 0; i < data[1].length; i++) {
+                        addCategoryData(i)
+                    }
                     navigation.navigate(navigateTo)
                 }
             }

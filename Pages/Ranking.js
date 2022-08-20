@@ -8,8 +8,8 @@ import { useIsFocused } from '@react-navigation/native';
 
 const db = SQLite.openDatabase(
   {
-      name: 'test.db',
-      location: 'default'
+    name: 'test.db',
+    location: 'default'
   },
   () => {},
   error => {console.log(error)}
@@ -17,14 +17,21 @@ const db = SQLite.openDatabase(
 
 export default function Ranking({navigation}) {
   const [rankingList, setRankingList] = useState([])
+  const [rankingKeyList, setRankingKeyList] = useState([])
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if(isFocused){
       getRankingData()
+      console.log(rankingKeyList)
     }
   }, [isFocused]);
-
+  const delRankingData = () => {
+    try {
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const getRankingData = () => {
     try {
       db.transaction((tx) => {
@@ -40,7 +47,9 @@ export default function Ranking({navigation}) {
                   setRankingList(oldArray => [...oldArray, results.rows.item(i).ranking_name])
                 }
               }
-              else setRankingList(oldArray => [...oldArray, results.rows.item(len-1).ranking_name])
+              else {
+                setRankingList(oldArray => [...oldArray, results.rows.item(len-1).ranking_name])
+              }
             }
           }
         )
@@ -84,15 +93,15 @@ export default function Ranking({navigation}) {
                 <View style={styles.rowContainter}>
                   <View style={styles.rowContainterTogether}>
                     <TouchableOpacity onPress={() => {navigation.navigate('List')}}>
-                      <Text style={styles.rankingName}>{item}</Text>
+                      <Text key={item} style={styles.rankingName}>{item}</Text>
                     </TouchableOpacity>
                     <View style={styles.editEditPos}>
-                      <TouchableOpacity onPress={() => navigation.navigate('AddRanking')}>
+                      <TouchableOpacity onPress={() => alert('TODO: EDIT ITEM')}>
                         <Image source={require('../icons/editIcon.png')} style={styles.editStyle}/>
                       </TouchableOpacity>
                     </View>
                     <View style={[styles.editEditPos, {marginLeft: '-3%'}]}>
-                      <TouchableOpacity onPress={() => alert('TODO: delete item in db')}>
+                      <TouchableOpacity onPress={() => alert('TODO: DELETE ITEM')}>
                         <Image source={require('../icons/trash.png')} style={styles.editStyle}/>
                       </TouchableOpacity>
                     </View>
