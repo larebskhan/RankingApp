@@ -2,8 +2,54 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
 import Header from '../Components/Header';
 import NavButton from '../Components/NavButton';
+import * as SQLite from 'expo-sqlite';
+import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+
+const db = SQLite.openDatabase(
+  {
+      name: 'test.db',
+      location: 'default'
+  },
+  () => {},
+  error => {console.log(error)}
+);
 
 export default function Ranking({navigation}) {
+  const [rankingList, setRankingList] = useState([])
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if(isFocused){
+      getRankingData()
+    }
+  }, [isFocused]);
+
+  const getRankingData = () => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT ranking_name FROM Rankings ",
+          [],
+          (tx, results) => {
+            var len = results.rows.length;
+            if(len > 0) {
+              if(rankingList.length == 0) {
+                for(var i = 0; i < len; i++)
+                {
+                  setRankingList(oldArray => [...oldArray, results.rows.item(i).ranking_name])
+                }
+              }
+              else setRankingList(oldArray => [...oldArray, results.rows.item(len-1).ranking_name])
+            }
+          }
+        )
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
     const dummyData = [
       {
         "name": "Boston Coffee",
@@ -33,12 +79,12 @@ export default function Ranking({navigation}) {
       <ScrollView>
         <View style={styles.content}>
           {
-            dummyData.map((item) => (
+            rankingList.map((item) => (
               <View>
                 <View style={styles.rowContainter}>
                   <View style={styles.rowContainterTogether}>
                     <TouchableOpacity onPress={() => {navigation.navigate('List')}}>
-                      <Text style={styles.rankingName}>{item.name}</Text>
+                      <Text style={styles.rankingName}>{item}</Text>
                     </TouchableOpacity>
                     <View style={styles.editEditPos}>
                       <TouchableOpacity onPress={() => navigation.navigate('AddRanking')}>
@@ -51,14 +97,14 @@ export default function Ranking({navigation}) {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  <Text style={styles.numItems}>{item.numItems} items</Text>
+                  {/* <Text style={styles.numItems}>{item.numItems} items</Text> */}
                 </View>
-                <View style={styles.rowContainterTogether}>
+                {/* <View style={styles.rowContainterTogether}>
                   <View style={styles.starPosition}>
                     <Image source={require('../icons/star.png')} style={styles.starStyle}/>
                   </View>
                   <Text style={styles.rankingWinner}>{item.winner}</Text>
-                </View>
+                </View> */}
                 <Image source={require('../icons/fancyLine.png')} style={styles.fancyLineStyle}/>
               </View>
             ))

@@ -10,6 +10,7 @@ export default function AddRanking() {
   const [catArray, setCatArray] = useState([<CategoriesInput/>]);
   const [catDataArray, setCatDataArray] = useState([])
   const [title, setTitle] = useState('')
+  
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.rowContainter}>
